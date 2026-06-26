@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>卡厄斯夢境 - 存檔價值 (PT) 模擬器 | Chaos Zero Nightmare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="stars-bg"></div>
+    <div class="cyber-grid"></div>
+    
+    <header class="app-header">
+        <div class="header-content">
+            <div class="logo-wrapper">
+                <div class="neon-orb"></div>
+                <h1>卡厄斯夢境 <span>存檔價值 (PT) 模擬器</span></h1>
+            </div>
+            <p class="subtitle">Chaos Zero Nightmare - Save Value Simulator & Deck Optimizer</p>
+        </div>
+    </header>
+
+    <main class="app-container">
+        <!-- LEFT COLUMN: SETTINGS & PROGRESS -->
+        <section class="left-panel">
+            <!-- Stage Settings -->
+            <div class="card settings-card">
+                <div class="card-header">
+                    <svg class="header-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 15.5A3.5 3.5 0 0 1 8.5 12A3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5a3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97s-.03-.66-.07-.97l2.11-1.63c.2-.15.25-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.39-1.09-.73-1.71-.99l-.37-2.67c-.04-.24-.25-.42-.5-.42h-4c-.25 0-.46.18-.5.42l-.37 2.67c-.62.26-1.19.6-1.71.99l-2.49-1c-.22-.08-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.63c-.04.32-.07.65-.07.97s.03.65.07.97l-2.11 1.63c-.2.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.39 1.09.73 1.71.99l.37 2.67c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.67c.62-.26 1.19-.6 1.71-.99l2.49 1c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.63Z"/></svg>
+                    <h2>關卡難度設定</h2>
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tier-select">存檔階級 (Tier)</label>
+                            <div class="select-wrapper">
+                                <select id="tier-select">
+                                    <!-- Dynamic Tiers -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group toggle-group">
+                            <label for="nightmare-toggle" class="toggle-label">
+                                <span>深層夢境 (噩夢模式)</span>
+                                <input type="checkbox" id="nightmare-toggle" class="toggle-input">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live PT Display -->
+            <div class="card pt-card">
+                <div class="card-body pt-summary">
+                    <div class="pt-status-badge" id="pt-status-badge">正常 (Safe)</div>
+                    <div class="pt-score-display">
+                        <span class="current-pt" id="display-current-pt">0</span>
+                        <span class="pt-divider">/</span>
+                        <span class="limit-pt" id="display-limit-pt">180</span>
+                        <span class="pt-unit">PT</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="pt-progress-bar"></div>
+                    </div>
+                    <div class="pt-sub-indicators">
+                        <div class="sub-indicator">
+                            <span class="ind-label">卡牌基礎值</span>
+                            <span class="ind-val" id="ind-cards-base">0 PT</span>
+                        </div>
+                        <div class="sub-indicator">
+                            <span class="ind-label">累進操作費</span>
+                            <span class="ind-val" id="ind-operations">0 PT</span>
+                        </div>
+                        <div class="sub-indicator">
+                            <span class="ind-label">額外懲罰值</span>
+                            <span class="ind-val text-warning" id="ind-penalties">0 PT</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Operations Counters -->
+            <div class="card operations-card">
+                <div class="card-header">
+                    <svg class="header-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2m0 2a8 8 0 0 1 8 8c0 1.25-.29 2.43-.8 3.5L14.7 13c.2-.3.3-.6.3-1a3 3 0 0 0-3-3c-.4 0-.7.1-1 .3L6.5 4.8C7.57 4.3 8.75 4 10 4M4.8 6.5l4.5 4.5c-.3.3-.5.7-.5 1a3 3 0 0 0 3 3c.3 0 .7-.2 1-.3l4.5 4.5c-1.07.5-2.25.8-3.5.8a8 8 0 0 1-8-8c0-1.25.3-2.43.8-3.5m7.2 3.5a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2Z"/></svg>
+                    <h2>局內操作計費器 (手動微調)</h2>
+                </div>
+                <div class="card-body">
+                    <p class="section-desc">此處記錄您在副本中主動執行的刪除、複製與轉換次數，系統將據此套用累進 PT 公式。</p>
+                    <div class="counter-grid">
+                        <div class="counter-item">
+                            <div class="counter-info">
+                                <span class="counter-name">刪除卡牌次數</span>
+                                <span class="counter-sub">累進計費: 0 / 10 / 30 / 50 / 70</span>
+                            </div>
+                            <div class="counter-control">
+                                <button class="btn-minus" id="btn-delete-minus">-</button>
+                                <span class="counter-value" id="val-delete-count">0</span>
+                                <button class="btn-plus" id="btn-delete-plus">+</button>
+                            </div>
+                        </div>
+                        <div class="counter-item">
+                            <div class="counter-info">
+                                <span class="counter-name">複製卡牌次數</span>
+                                <span class="counter-sub">累進計費: 0 / 10 / 30 / 50 / 70</span>
+                            </div>
+                            <div class="counter-control">
+                                <button class="btn-minus" id="btn-duplicate-minus">-</button>
+                                <span class="counter-value" id="val-duplicate-count">0</span>
+                                <button class="btn-plus" id="btn-duplicate-plus">+</button>
+                            </div>
+                        </div>
+                        <div class="counter-item">
+                            <div class="counter-info">
+                                <span class="counter-name">卡牌轉換次數</span>
+                                <span class="counter-sub">每次固定 +10 PT</span>
+                            </div>
+                            <div class="counter-control">
+                                <button class="btn-minus" id="btn-transform-minus">-</button>
+                                <span class="counter-value" id="val-transform-count">0</span>
+                                <button class="btn-plus" id="btn-transform-plus">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RIGHT COLUMN: INTERACTIVE TABS -->
+        <section class="right-panel">
+            <div class="tab-container">
+                <div class="tab-headers">
+                    <button class="tab-header active" data-tab="tab-deck">步進式卡牌模擬</button>
+                    <button class="tab-header" data-tab="tab-presets">經典套牌預設</button>
+                    <button class="tab-header" data-tab="tab-calculator">快速計分器</button>
+                </div>
+
+                <!-- Tab 1: Interactive Deck Builder -->
+                <div class="tab-content active" id="tab-deck">
+                    <!-- Add Card Panel -->
+                    <div class="deck-actions-panel">
+                        <h3>加入新卡牌至牌組</h3>
+                        <div class="add-card-form">
+                            <div class="form-group flex-1">
+                                <label for="add-card-type">卡牌種類</label>
+                                <div class="select-wrapper">
+                                    <select id="add-card-type">
+                                        <option value="initial">初始卡 (0 PT)</option>
+                                        <option value="neutral" selected>中立卡 (20 PT)</option>
+                                        <option value="monster">怪物卡 (80 PT)</option>
+                                        <option value="forbidden">禁忌卡 (20 PT)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group flex-1">
+                                <label for="add-card-inspiration">靈光一閃</label>
+                                <div class="select-wrapper">
+                                    <select id="add-card-inspiration">
+                                        <option value="none">無 (0 PT)</option>
+                                        <option value="ordinary">普通靈光一閃 (+10 PT)</option>
+                                        <option value="divine">神之靈光一閃 (+20 PT)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group toggle-group-inline">
+                                <label for="add-card-sparkly" class="checkbox-label">
+                                    <input type="checkbox" id="add-card-sparkly">
+                                    <span>觸發普閃 (+10 PT)</span>
+                                </label>
+                            </div>
+                            <button class="btn btn-primary" id="btn-add-card">加入卡牌</button>
+                        </div>
+                    </div>
+
+                    <!-- Deck Controls -->
+                    <div class="deck-controls-row">
+                        <div class="deck-stats">
+                            當前牌組卡牌數：<span id="deck-size">10</span> 張
+                        </div>
+                        <div class="deck-action-buttons">
+                            <button class="btn btn-outline" id="btn-reset-deck">重設預設卡組</button>
+                            <button class="btn btn-outline" id="btn-clear-all">清空卡組</button>
+                            <button class="btn btn-outline" id="btn-export-json">匯出 JSON</button>
+                            <button class="btn btn-outline" id="btn-import-json">匯入 JSON</button>
+                        </div>
+                    </div>
+
+                    <!-- Deck Grid -->
+                    <div class="deck-grid" id="deck-grid">
+                        <!-- Dynamic Cards -->
+                    </div>
+                </div>
+
+                <!-- Tab 2: Presets -->
+                <div class="tab-content" id="tab-presets">
+                    <p class="section-desc">選擇以下預設的《卡厄斯夢境》經典存檔套牌，可以一鍵載入卡組與對應操作，進行 PT 超限調校模擬：</p>
+                    <div class="preset-grid">
+                        <div class="preset-card">
+                            <h3>精簡過載流 (極限刪卡)</h3>
+                            <p class="preset-desc">大幅刪除初始基本卡，僅保留核心牌。此流派刪卡次數極高，且有額外初始卡刪除懲罰，需要精算 PT。</p>
+                            <ul class="preset-specs">
+                                <li>總卡數：6 張 (初始卡2、中立卡4)</li>
+                                <li>刪卡次數：8 次 (含 8 張初始卡)</li>
+                                <li>複製次數：1 次</li>
+                            </ul>
+                            <button class="btn btn-preset" data-preset="minimalist">載入精簡流預設</button>
+                        </div>
+                        
+                        <div class="preset-card">
+                            <h3>怪物卡暴兵流 (高額單體)</h3>
+                            <p class="preset-desc">引入強力怪物卡。因為怪物卡單張基礎 PT 高達 80，極易爆倉。本套牌展示如何轉化中立卡來規避爆倉。</p>
+                            <ul class="preset-specs">
+                                <li>總卡數：11 張 (初始卡8、怪物卡1、中立卡2)</li>
+                                <li>刪卡次數：2 次</li>
+                                <li>轉換次數：2 次</li>
+                            </ul>
+                            <button class="btn btn-preset" data-preset="monster">載入暴兵流預設</button>
+                        </div>
+
+                        <div class="preset-card text-gold">
+                            <h3>神之靈光閃耀流 (極致數值)</h3>
+                            <p class="preset-desc">大量塞入神之靈光一閃（神閃）與普閃中立卡，以極高局內強度通關。需要控制複製與刪卡次數來保住神閃。</p>
+                            <ul class="preset-specs">
+                                <li>總卡數：12 張 (初始卡6、神閃中立卡4、普通靈光2)</li>
+                                <li>複製次數：4 次 (複製神閃卡)</li>
+                                <li>刪卡次數：4 次</li>
+                            </ul>
+                            <button class="btn btn-preset" data-preset="divine">載入神閃流預設</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 3: Quick Calculator -->
+                <div class="tab-content" id="tab-calculator">
+                    <p class="section-desc">不使用卡牌模擬器，直接在下方輸入統計數量，快速計算您的存檔 PT 是否會超限：</p>
+                    <div class="quick-calc-form">
+                        <div class="calc-section">
+                            <h3>1. 卡牌統計</h3>
+                            <div class="calc-grid">
+                                <div class="form-group">
+                                    <label>初始卡數量 (0 PT)</label>
+                                    <input type="number" id="calc-initial-count" value="10" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>中立卡數量 (20 PT)</label>
+                                    <input type="number" id="calc-neutral-count" value="0" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>怪物卡數量 (80 PT)</label>
+                                    <input type="number" id="calc-monster-count" value="0" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>禁忌卡數量 (20 PT)</label>
+                                    <input type="number" id="calc-forbidden-count" value="0" min="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="calc-section">
+                            <h3>2. 靈光與閃光加成數量</h3>
+                            <div class="calc-grid">
+                                <div class="form-group">
+                                    <label>普通靈光一閃數量 (+10 PT/張)</label>
+                                    <input type="number" id="calc-ordinary-insp" value="0" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>神之靈光一閃數量 (+20 PT/張)</label>
+                                    <input type="number" id="calc-divine-insp" value="0" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>觸發普閃卡數量 (+10 PT/張)</label>
+                                    <input type="number" id="calc-sparkly-count" value="0" min="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="calc-section">
+                            <h3>3. 局內操作次數</h3>
+                            <div class="calc-grid">
+                                <div class="form-group">
+                                    <label>刪卡總次數 (累進費)</label>
+                                    <input type="number" id="calc-delete-ops" value="0" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>刪除初始卡/靈光卡張數 (每張 +20 懲罰)</label>
+                                    <input type="number" id="calc-delete-penalties" value="0" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>複製卡牌總次數 (累進費)</label>
+                                    <input type="number" id="calc-duplicate-ops" value="0" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>卡牌轉換次數 (每次 +10)</label>
+                                    <input type="number" id="calc-transform-ops" value="0" min="0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- BOTTOM PANEL: ANALYTICS & ALERTS -->
+    <footer class="app-footer-analysis">
+        <div class="analysis-container">
+            <div class="analysis-box warnings-box">
+                <div class="box-header">
+                    <svg class="header-icon text-warning" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2L1 21h22L12 2zm1 14h-2v-2h2v2zm0-4h-2V8h2v4z"/></svg>
+                    <h3>存檔健康度診斷與建議</h3>
+                </div>
+                <div class="box-body" id="analysis-suggestions">
+                    <p class="text-muted">當前卡組狀態良好，尚未有超限風險。</p>
+                </div>
+            </div>
+            
+            <div class="analysis-box breakdown-box">
+                <div class="box-header">
+                    <svg class="header-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H5v-2h4V7h2v4h4v2z"/></svg>
+                    <h3>詳細 PT 結算帳單</h3>
+                </div>
+                <div class="box-body">
+                    <ul class="breakdown-list" id="pt-breakdown-list">
+                        <!-- Dynamic list -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL FOR EXPORT/IMPORT -->
+    <div class="modal-overlay" id="json-modal">
+        <div class="modal-content">
+            <h3 id="modal-title">資料匯出/匯入</h3>
+            <textarea id="modal-textarea" readonly></textarea>
+            <div class="modal-actions">
+                <button class="btn btn-outline" id="btn-modal-close">關閉</button>
+                <button class="btn btn-primary" id="btn-modal-action">複製內容</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
